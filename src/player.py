@@ -5,9 +5,14 @@ class Player:
     self.name = name
     self.current_room = current_room
     self.items = items
+
   def __repr__(self):
     return f"{self.items}"
+    #str is intended to be human readable
+    #repr is explicit for development
+
   def pickup(self, item):
     self.items.append(item)
+
   def drop(self, item):
     self.items.remove(item)

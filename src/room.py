@@ -11,13 +11,16 @@ class Room:
     self.name = name
     self.description = description
     self.items = items
-    n_to = None
-    s_to = None
-    e_to = None
-    w_to = None
+    self.n_to = None
+    self.s_to = None
+    self.e_to = None
+    self.w_to = None
+
   def __repr__(self):
     return f'{self.items}'
+
   def add(self, item):
     self.items.append(item)
+
   def steal(self, item):
     self.items.remove(item)

@@ -1,6 +1,7 @@
 from room import Room
 from player import Player
 from item import Item
+from random
 
 # Declare all the rooms
 item = {
@@ -27,12 +28,12 @@ room = {
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east.""",
-                [item["bong"]]),
+                [item["bong"], random.choice(list(item.items()))]),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
 the distance, but there is no way across the chasm.""",
-                [item["bong"]]),
+                [item["bong"], random.choice]),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air.""",
@@ -77,17 +78,29 @@ running = True
 current_room = None
 while(running):
     print(player.current_room.name)
-    print(player.current_room.description)
+    print(player.current_room.description, "\n")
 
     direction = input("where would you like to go? ")
     if direction == "n" :
-        player.current_room = player.current_room.n_to
+        if not player.current_room.n_to:
+            print(f'there is nowhere for {player.name} to go that way')
+        else:
+            player.current_room = player.current_room.n_to
     elif direction == "s" :
-        player.current_room = player.current_room.s_to
+        if not player.current_room.s_to:
+            print(f"there is nowhere for {player.name} to go that way")
+        else:
+            player.current_room = player.current_room.s_to
     elif direction == "e" :
-        player.current_room = player.current_room.e_to
+        if not player.current_room.e_to:
+            print(f"there is nowhere for {player.name} to go that way")
+        else:
+            player.current_room = player.current_room.w_to
     elif direction == "w" :
-        player.current_room = player.current_room.w_to
+        if not player.current_room.n_to:
+            print(f"there is nowhere for {player.name} to go that way")
+        else:
+            player.current_room = player.current_room.w_to
     elif direction == "a" :
         print(f"you investigate and find {player.current_room.items}")
         action = input("Would you like any of these items? ")
@@ -98,7 +111,7 @@ while(running):
             if len(player.current_room.items) - 1 >= select_item:
                 player.pickup(player.current_room.items[select_item])
                 # player.current_room.steal(player.current_room.items[select_item])
-                player.current_room.steal(items[select_item])
+                player.current_room.steal(item[select_item])
     elif direction == "d" :
         print(f"you investigate your pockets and find {player.items}")
         action = input("Would you like to drop any of these items? ")
@@ -113,7 +126,21 @@ while(running):
     elif direction == "q":
         running = False
     else:
-        print("please ender a cardinal direction or q to exit")
-        # currently errors out if we go to a none existent room:
-    if player.current_room is None:
-        print(f"there is nowhere for {player.name} to go that way")
+        print("please enter a cardinal direction or q to exit")
+
+
+    # Alt code to shorten up moving directions by Samuel Rowan:
+# def room_logic(dir):
+#     letter = dir + '_to'
+#     print(letter)
+#     if not getattr(new_player.current_room, letter):
+#         print("There's nothing here! I'll head back!")
+#     else:
+#         new_player.current_room = getattr(new_player.current_room, letter)
+# player_input = input("Where would you like to go? (n/s/e/w or q to exit)")
+# while player_input != 'q':
+#     print(new_player.current_room.name)
+#     print(new_player.current_room.description)
+#     room_logic(player_input)
+#     player_input = input("Where would you like to go next? (n/s/e/w or q to exit)")
+# print("thanks for playing")
